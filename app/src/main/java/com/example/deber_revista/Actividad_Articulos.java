@@ -2,10 +2,7 @@ package com.example.deber_revista;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,41 +19,24 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import Adaptadores.AdaptadorRevista;
+import Adaptadores.AdaptadorArticulo;
 import Adaptadores.AdaptadorVolumen;
-import Modelos.Revista;
+import Modelos.Articulo;
 import Modelos.Volumen;
 
-public class ActVolumenes extends AppCompatActivity {
-    public ListView lstvolumen;
-
-
+public class Actividad_Articulos extends AppCompatActivity {
+    public ListView lstarticulos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_act_volumenes);
+        setContentView(R.layout.activity_actividad_articulos);
 
-        lstvolumen = (ListView)findViewById(R.id.lstvolumenes);
-
-        lstvolumen.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-
-                Intent intent = new Intent(ActVolumenes.this, Actividad_Articulos.class);
-                Bundle b = new Bundle();
-                b.putString("id",((Volumen)a.getItemAtPosition(position)).id);
-                intent.putExtras(b);
-                startActivity(intent);
-
-            }
-        });
-
-
+        lstarticulos = (ListView)findViewById(R.id.lstarticulo);
 
         Bundle bundle = this.getIntent().getExtras();
-        String IDRevista= bundle.getString("id");
-        RequestQueue queue=Volley.newRequestQueue(this);
-        String url="https://revistas.uteq.edu.ec/ws/issues.php?j_id="+IDRevista;
+        String IDVolumen=bundle.getString("id");
+        RequestQueue queue= Volley.newRequestQueue(this);
+        String url="https://revistas.uteq.edu.ec/ws/pubs.php?i_id="+IDVolumen;
 
 
         // Request a string response from the provided URL.
@@ -67,13 +47,13 @@ public class ActVolumenes extends AppCompatActivity {
                         // Display the first 500 characters of the response string.
                         JSONObject JSONlista = null;
                         try {
-                            JSONArray JSONVolumen= new JSONArray(response);
+                            JSONArray JSONArticulo= new JSONArray(response);
 
-                            ArrayList<Volumen> lstVolumenA = Volumen.JsonObjectsBuild(JSONVolumen);
+                            ArrayList<Articulo> lstArticuloA = Articulo.JsonObjectsBuild(JSONArticulo);
 
-                            AdaptadorVolumen adaptadorVolumen = new AdaptadorVolumen(getApplicationContext(),lstVolumenA);
+                            AdaptadorArticulo adaptadorArticulo = new AdaptadorArticulo(getApplicationContext(),lstArticuloA);
 
-                            lstvolumen.setAdapter(adaptadorVolumen);
+                            lstarticulos.setAdapter(adaptadorArticulo);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -83,7 +63,7 @@ public class ActVolumenes extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ActVolumenes.this, "No Valió", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Actividad_Articulos.this, "No Valió", Toast.LENGTH_SHORT).show();
             }
         });
 

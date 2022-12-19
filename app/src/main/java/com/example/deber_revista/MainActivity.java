@@ -42,24 +42,17 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 
                 Intent intent = new Intent(MainActivity.this, ActVolumenes.class);
-
                 Bundle b = new Bundle();
                 b.putString("id",((Revista)a.getItemAtPosition(position)).id);
                 intent.putExtras(b);
-
                 startActivity(intent);
 
             }
         });
 
-
-        // ...
-
-        // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://revistas.uteq.edu.ec/ws/journals.php";
 
-        // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -77,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -86,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "No Valió", Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Add the request to the RequestQueue.
         queue.add(stringRequest);
 
 

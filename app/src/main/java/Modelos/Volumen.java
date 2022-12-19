@@ -11,14 +11,15 @@ public class Volumen {
     public String title;
     public String fecha;
     public String doi;
+    public String id;
 
 
     public Volumen(JSONObject a) throws JSONException {
         cover =  a.getString("cover").toString();
-
         title =  a.getString("title").toString() ;
         fecha=a.getString("date_published").toString();
         doi=a.getString("doi").toString();
+        id=a.getString("issue_id").toString();
 
 
     }
